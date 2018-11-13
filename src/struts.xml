@@ -10,7 +10,7 @@
 	<package name="shop" extends="struts-default" namespace="/">
 		<!-- 配置自定义拦截器 -->
 		<interceptors>
-			<interceptor name="privilegeInterceptor" class="cn.itcast.shop.interceptor.PrivilegeInterceptor"/>
+			<interceptor name="privilegeInterceptor" class="cn.xd.shop.interceptor.PrivilegeInterceptor"/>
 			
 		</interceptors>
 	
