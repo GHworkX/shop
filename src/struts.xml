@@ -11,12 +11,14 @@
 		<!-- 配置自定义拦截器 -->
 		<interceptors>
 			<interceptor name="privilegeInterceptor" class="cn.xd.shop.interceptor.PrivilegeInterceptor"/>
-			
+			<interceptor name="userLoginInterceptor" class="cn.xd.shop.interceptor.UserLoginInterceptor"/>
 		</interceptors>
-	
+		
 		<global-results>
 			<result name="msg">/WEB-INF/jsp/msg.jsp</result>
 			<result name="login">/admin/index.jsp</result>
+			<result name="userLogin">/WEB-INF/jsp/login.jsp</result>
+			<result name="index">/WEB-INF/jsp/index.jsp</result>
 		</global-results>
 		
 	
@@ -35,6 +37,12 @@
 			<result name="loginSuccess" type="redirectAction">index</result>
 			<result name="quit" type="redirectAction">index</result>
 			<result name="checkcodeFail">/WEB-INF/jsp/regist.jsp</result>
+			<interceptor-ref name="userLoginInterceptor">	
+				<param name="excludeMethods">login</param>
+				<param name="excludeMethods">quit</param>
+				<param name="excludeMethods">regist</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		
 		<!-- 验证码Action -->
@@ -45,6 +53,11 @@
 			<result name="findByPid">/WEB-INF/jsp/product.jsp</result>
 			<result name="findByCid">/WEB-INF/jsp/productList.jsp</result>
 			<result name="findByCsid">/WEB-INF/jsp/productList.jsp</result>
+			<result name="findByUid">/WEB-INF/jsp/productUserList.jsp</result>
+			<result name="addPage">/WEB-INF/jsp/productUserAdd.jsp</result>
+			<result name="saveSuccess" type="redirectAction">product_findByUid.action?page=1</result>
+			<interceptor-ref name="userLoginInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		
 		<!-- 购物车的Action -->
@@ -53,6 +66,8 @@
 			<result name="clearCart">/WEB-INF/jsp/cart.jsp</result>
 			<result name="removeCart">/WEB-INF/jsp/cart.jsp</result>
 			<result name="myCart">/WEB-INF/jsp/cart.jsp</result>
+			<interceptor-ref name="userLoginInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		
 		<!-- 订单的Action -->
@@ -61,6 +76,8 @@
 			<result name="findByUid">/WEB-INF/jsp/orderList.jsp</result>
 			<result name="findByOid">/WEB-INF/jsp/order.jsp</result>
 			<result name="updateStateSuccess" type="redirectAction">order_findByUid.action?page=1</result>
+			<interceptor-ref name="userLoginInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		
 		<!-- 后台登录Action -->

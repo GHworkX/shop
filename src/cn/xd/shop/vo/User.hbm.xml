@@ -16,10 +16,14 @@
 		<property name="addr"/>
 		<property name="state"/>
 		<property name="code"/>
-		
+		<property name="userImg"/>
 		<set name="orders" cascade="delete">
 			<key column="uid"/>
 			<one-to-many class="cn.xd.shop.vo.Order"/>
+		</set>
+		<set name="products" cascade="delete">
+			<key column="pid"/>
+			<one-to-many class="cn.xd.shop.vo.Product"/>
 		</set>
 	</class>
 </hibernate-mapping>

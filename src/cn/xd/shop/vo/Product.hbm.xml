@@ -14,7 +14,9 @@
 		<property name="pdesc"/>
 		<property name="is_hot"/>
 		<property name="pdate"/>
-		
+		<property name="isMarket"/>
+		<property name="state"/>
 		<many-to-one name="categorySecond" lazy="false" class="cn.xd.shop.vo.CategorySecond" column="csid"/>
+		<many-to-one name="seller" lazy="false" class="cn.xd.shop.vo.User" column="sellerid"/>
 	</class>
 </hibernate-mapping>

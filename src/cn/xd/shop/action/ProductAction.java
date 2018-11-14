@@ -1,9 +1,24 @@
 package cn.xd.shop.action;
 
+import cn.xd.shop.service.CategorySecondService;
 import cn.xd.shop.service.CategoryService;
 import cn.xd.shop.service.ProductService;
+import cn.xd.shop.vo.AdminUser;
+import cn.xd.shop.vo.CategorySecond;
+import cn.xd.shop.vo.Order;
 import cn.xd.shop.vo.Product;
+import cn.xd.shop.vo.User;
 import cn.xd.utils.PageBean;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -15,8 +30,7 @@ import com.opensymphony.xwork2.ModelDriven;
  * @author 传智.郭嘉
  * 
  */
-public class ProductAction extends ActionSupport implements
-		ModelDriven<Product> {
+public class ProductAction extends ActionSupport implements ModelDriven<Product> {
 	// 用于接收数据的模型驱动.
 	private Product product = new Product();
 	// 注入商品的Service
@@ -34,17 +48,11 @@ public class ProductAction extends ActionSupport implements
 		this.csid = csid;
 	}
 
-	// 注入一级分类的Service
-	private CategoryService categoryService;
 	// 接收当前页数:
 	private int page;
 
 	public void setPage(int page) {
 		this.page = page;
-	}
-
-	public void setCategoryService(CategoryService categoryService) {
-		this.categoryService = categoryService;
 	}
 
 	public void setCid(Integer cid) {
@@ -61,6 +69,40 @@ public class ProductAction extends ActionSupport implements
 
 	public Product getModel() {
 		return product;
+	}
+
+	// 文件上传需要的三个属性:
+	private File upload;
+	private String uploadFileName;
+	private String uploadContentType;
+
+	public void setUpload(File upload) {
+		this.upload = upload;
+	}
+
+	public void setUploadFileName(String uploadFileName) {
+		this.uploadFileName = uploadFileName;
+	}
+
+	public void setUploadContentType(String uploadContentType) {
+		this.uploadContentType = uploadContentType;
+	}
+
+	// 注入CategorySecondService
+	private CategorySecondService categorySecondService;
+
+	public void setCategorySecondService(CategorySecondService categorySecondService) {
+		this.categorySecondService = categorySecondService;
+	}
+
+	// 跳转到添加页面的方法:
+	public String addPage() {
+		// 查询所有的二级分类:
+		List<CategorySecond> csList = categorySecondService.findAll();
+		// 将二级分类的数据显示到页面上
+		ActionContext.getContext().getValueStack().set("csList", csList);
+		// 页面跳转
+		return "addPage";
 	}
 
 	// 根据商品的ID进行查询商品:执行方法:
@@ -86,5 +128,42 @@ public class ProductAction extends ActionSupport implements
 		// 将PageBean存入到值栈中:
 		ActionContext.getContext().getValueStack().set("pageBean", pageBean);
 		return "findByCsid";
+	}
+
+	// 根据用户的id查询商品:
+	public String findByUid() {
+		// 获得用户的id.
+		User existUser = (User) ServletActionContext.getRequest().getSession().getAttribute("existUser");
+		// 获得用户的id
+		Integer uid = existUser.getUid();
+		// 根据用户的id查询订单:
+		PageBean<Product> pageBean = productService.findBySellerId(uid, page);
+		// 将PageBean数据带到页面上.
+		ActionContext.getContext().getValueStack().set("pageBean", pageBean);
+		return "findByUid";
+	}
+
+	// 保存商品的方法:
+	public String save() throws IOException, ParseException {
+		User existUser = (User) ServletActionContext.getRequest().getSession().getAttribute("existUser");
+		// 将提交的数据添加到数据库中.
+		Date date = new Date();
+		SimpleDateFormat temp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		product.setPdate(temp.parse(temp.format(date)));
+		// product.setImage(image);
+		product.setSeller(existUser);
+		if (upload != null) {
+			// 将商品图片上传到服务器上.
+			// 获得上传图片的服务器端路径.
+			String path = ServletActionContext.getServletContext().getRealPath("/products");
+			// 创建文件类型对象:
+			File diskFile = new File(path + "//" + uploadFileName);
+			// 文件上传:
+			FileUtils.copyFile(upload, diskFile);
+
+			product.setImage("products/" + uploadFileName);
+		}
+		productService.save(product);
+		return "saveSuccess";
 	}
 }

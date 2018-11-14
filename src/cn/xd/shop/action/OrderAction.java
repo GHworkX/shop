@@ -1,6 +1,8 @@
 package cn.xd.shop.action;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.struts2.ServletActionContext;
@@ -65,7 +67,7 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
 	}
 
 	// 生成订单的执行的方法:
-	public String saveOrder() {
+	public String saveOrder(){
 
 		// 调用Service完成数据库插入的操作:
 		// Order order = new Order();
@@ -81,7 +83,15 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
 		// 设置订单的状态
 		order.setState(1); // 1:未付款.
 		// 设置订单时间
-		order.setOrdertime(new Date());
+		Date date=new Date();							
+		SimpleDateFormat temp=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		try {
+			order.setOrdertime(temp.parse(temp.format(date)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			this.addActionMessage("亲!服务器繁忙，请稍等!");
+			return "msg";
+		}
 		// 设置订单关联的客户:
 		User existUser = (User) ServletActionContext.getRequest().getSession()
 				.getAttribute("existUser");

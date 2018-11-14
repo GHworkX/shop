@@ -4,7 +4,7 @@ package cn.xd.shop.vo;
  * @author 传智.郭嘉
  *
  */
-public class AdminUser {
+public class AdminUser{
 	private Integer uid;
 	private String username;
 	private String password;

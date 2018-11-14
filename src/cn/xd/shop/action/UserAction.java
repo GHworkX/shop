@@ -1,9 +1,11 @@
 package cn.xd.shop.action;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import cn.xd.shop.service.UserService;
@@ -38,6 +40,22 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		this.userService = userService;
 	}
 
+	// 文件上传需要的三个属性:
+	private File upload;
+	private String uploadFileName;
+	private String uploadContentType;
+	public void setUpload(File upload) {
+			this.upload = upload;
+	}
+
+	public void setUploadFileName(String uploadFileName) {
+			this.uploadFileName = uploadFileName;
+	}
+
+	public void setUploadContentType(String uploadContentType) {
+			this.uploadContentType = uploadContentType;
+	}
+
 	/**
 	 * 跳转到注册页面的执行方法
 	 */
@@ -69,8 +87,9 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 
 	/**
 	 * 用户注册的方法:
+	 * @throws IOException 
 	 */
-	public String regist() {
+	public String regist() throws IOException {
 		// 判断验证码程序:
 		// 从session中获得验证码的随机值:
 		String checkcode1 = (String) ServletActionContext.getRequest()
@@ -79,6 +98,20 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			this.addActionError("验证码输入错误!");
 			return "checkcodeFail";
 		}
+		
+		if(upload != null){
+			// 将商品图片上传到服务器上.
+			// 获得上传图片的服务器端路径.
+			String path = ServletActionContext.getServletContext().getRealPath(
+					"/usersImg");
+			// 创建文件类型对象:
+			File diskFile = new File(path + "//" + uploadFileName);
+			// 文件上传:
+			FileUtils.copyFile(upload, diskFile);
+	
+			user.setUserImg("usersImg/" + uploadFileName);
+		}
+		
 		userService.save(user);
 		this.addActionMessage("注册成功!");
 		return "msg";

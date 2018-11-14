@@ -93,7 +93,7 @@
 	<div class="container header">
 		<div class="span5">
 			<div class="logo">
-				<a href="http://localhost:8080/mango/"> <img
+				<a href="/shop/index"> <img
 					src="${pageContext.request.contextPath}/image/r___________renleipic_01/logo.gif"
 					alt="传智播客"></a>
 			</div>
@@ -120,7 +120,7 @@
 					</div>
 					<form id="registerForm"
 						action="${ pageContext.request.contextPath }/user_regist.action"
-						method="post" novalidate="novalidate"
+						method="post" enctype="multipart/form-data" novalidate="novalidate"
 						onsubmit="return checkForm();">
 						<table>
 							<tbody>
@@ -159,6 +159,10 @@
 									<td><input id="code" type="text" name="code" class="number"
 										onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="只能输入11位的数字" /> <span><s:fielderror fieldName="code" /></span>
 									</td>
+								</tr>
+								<tr>
+									<th><span class="requiredField">*</span>一卡通照片:</th>
+									<td><input id="ykt" type="file" name="upload" /></td>
 								</tr>
 								<tr>
 									<th>电话:</th>

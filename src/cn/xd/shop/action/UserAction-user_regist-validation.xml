@@ -30,6 +30,11 @@
 			<message>学号不能为空!</message>
 		</field-validator>
 	</field>
+	<field name="ykt">
+		<field-validator type="requiredstring">
+			<message>一卡通图片不能为空!</message>
+		</field-validator>
+	</field>
 	<!-- 校验邮箱 -->
 	<field name="email">
 		<field-validator type="email">

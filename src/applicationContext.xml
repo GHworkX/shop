@@ -83,6 +83,7 @@
 	<!-- 商品模块的Action -->
 	<bean id="productAction" class="cn.xd.shop.action.ProductAction" scope="prototype">
 		<property name="productService" ref="productService"/>
+		<property name="categorySecondService" ref="categorySecondService"/>
 	</bean>
 	
 	<!-- 购物车的Action -->

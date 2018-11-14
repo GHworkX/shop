@@ -29,8 +29,13 @@ public class User {
 	private String addr;
 	private Integer state;
 	private String code;
+	private String userImg;
+	
 	// 一个用户对应多个订单:
 	private Set<Order> orders = new HashSet<Order>();
+	// 配置商品集合
+	private Set<Product> products = new HashSet<Product>();
+	
 	public Integer getUid() {
 		return uid;
 	}
@@ -90,6 +95,18 @@ public class User {
 	}
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+	public String getUserImg() {
+		return userImg;
+	}
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
+	public Set<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 	
 }

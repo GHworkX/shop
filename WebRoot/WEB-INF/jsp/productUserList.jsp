@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>我的订单</title>
+<title>我的商品</title>
 <link href="${pageContext.request.contextPath}/css/common.css"
 	rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/cart.css"
@@ -15,6 +15,11 @@
 <link href="${pageContext.request.contextPath}/css/product.css"
 	rel="stylesheet" type="text/css" />
 
+<script type="text/javascript">
+			function addProduct(){
+				window.location.href = "${pageContext.request.contextPath}/product_addPage.action";
+			}
+</script>
 </head>
 <body>
 
@@ -37,32 +42,30 @@
 
 			<div class="step step1">
 				<ul>
-					<li class="current"></li>
+
+					<li></li>
 					<li>我的订单</li>
+				</ul>
+				<ul sytle="float:right">
+					<li></li>
+					<li><button type="button" id="add" name="add" style="width:150px;height:20px;" onclick="addProduct()">上传我的商品</button></li>
 				</ul>
 			</div>
 
-
 			<table>
 				<tbody>
-					<s:iterator var="order" value="pageBean.list">
+					<s:iterator var="product" value="pageBean.list">
 						<tr>
-							<th colspan="5">订单编号:<s:property value="#order.oid" />&nbsp;&nbsp;&nbsp;&nbsp;
-							订单日期:<s:date name="#order.ordertime" format="yyyy-MM-dd hh:mm:ss"/>&nbsp;&nbsp;&nbsp;&nbsp;订单金额:<font
-								color="red"><s:property value="#order.total" />
+							<th colspan="5">
+							上传日期:<s:date name="#product.pdate" format="yyyy-MM-dd hh:mm:ss"/>&nbsp;&nbsp;&nbsp;&nbsp;商品金额:<font
+								color="red"><s:property value="#product.shop_price" />
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">
-								<s:if test="#order.state == 1">
-									<a href="${ pageContext.request.contextPath }/order_findByOid.action?oid=<s:property value="#order.oid" />">付款</a>
+								<s:if test="#product.state == 1">
+									未售出
 								</s:if>
 								<s:if test="#order.state == 2">
-									已付款
-								</s:if>
-								<s:if test="#order.state == 3">
-									<a href="${ pageContext.request.contextPath }/order_updateState.action?oid=<s:property value="#order.oid" />">确认收货</a>
-								</s:if>
-								<s:if test="#order.state == 4">
-									交易成功
+									已售出
 								</s:if>
 							</font>
 							</th>
@@ -71,23 +74,18 @@
 							<th>图片</th>
 							<th>商品</th>
 							<th>价格</th>
-							<th>数量</th>
-							<th>小计</th>
+							<th>操作</th>
 						</tr>
-						<s:iterator var="orderItem" value="#order.orderItems">
 							<tr>
 								<td width="60"><img
-									src="${ pageContext.request.contextPath }/<s:property value="#orderItem.product.image"/>" />
+									src="${ pageContext.request.contextPath }/<s:property value="#product.image"/>" />
 								</td>
-								<td><s:property value="#orderItem.product.pname" /></td>
-								<td><s:property value="#orderItem.product.shop_price" /></td>
-								<td class="quantity" width="60"><s:property
-										value="#orderItem.count" /></td>
-								<td width="140"><span class="subtotal">￥<s:property
-											value="#orderItem.subtotal" />
-								</span></td>
+								<td><s:property value="#product.pname" /></td>
+								<td><s:property value="#product.shop_price" /></td>
+								<td width="140">
+										<a href="">删除</a>
+								</td>
 							</tr>
-						</s:iterator>
 					</s:iterator>
 					<tr>
 						<th colspan="5">

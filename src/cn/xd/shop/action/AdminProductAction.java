@@ -12,6 +12,7 @@ import org.apache.struts2.ServletActionContext;
 
 import cn.xd.shop.service.CategorySecondService;
 import cn.xd.shop.service.ProductService;
+import cn.xd.shop.vo.AdminUser;
 import cn.xd.shop.vo.CategorySecond;
 import cn.xd.shop.vo.Product;
 import cn.xd.utils.PageBean;
@@ -95,11 +96,14 @@ public class AdminProductAction extends ActionSupport implements
 
 	// 保存商品的方法:
 	public String save() throws IOException, ParseException {
+		AdminUser adminUser = (AdminUser) ServletActionContext.getRequest()
+				.getSession().getAttribute("existAdminUser");
 		// 将提交的数据添加到数据库中.
 		Date date=new Date();							
 		SimpleDateFormat temp=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		product.setPdate(temp.parse(temp.format(date)));
 		// product.setImage(image);
+		product.setIsMarket(true);
 		if(upload != null){
 			// 将商品图片上传到服务器上.
 			// 获得上传图片的服务器端路径.

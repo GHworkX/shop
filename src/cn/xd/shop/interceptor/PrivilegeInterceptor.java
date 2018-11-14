@@ -8,11 +8,6 @@ import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 
 import cn.xd.shop.vo.AdminUser;
 
-/**
- * 权限拦截器:
- * @author 传智.郭嘉
- *
- */
 public class PrivilegeInterceptor extends MethodFilterInterceptor{
 
 	@Override

@@ -16,8 +16,13 @@ public class Product {
 	private String pdesc;
 	private Integer is_hot;
 	private Date pdate;
+	
+	private Integer state = 1;//0:可无限售出   1:没售出  2：已售出  
 	// 二级分类的外键:使用二级分类的对象.
 	private CategorySecond categorySecond;
+	// 卖家的外键:使用用户的对象.
+	private User seller;
+	private boolean isMarket = false;
 	public Integer getPid() {
 		return pid;
 	}
@@ -71,6 +76,24 @@ public class Product {
 	}
 	public void setCategorySecond(CategorySecond categorySecond) {
 		this.categorySecond = categorySecond;
+	}
+	public User getSeller() {
+		return seller;
+	}
+	public void setSeller(User seller) {
+		this.seller = seller;
+	}
+	public boolean getIsMarket() {
+		return isMarket;
+	}
+	public void setIsMarket(boolean isMarket) {
+		this.isMarket = isMarket;
+	}
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 }
