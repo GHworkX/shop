@@ -28,6 +28,8 @@ public class ProductDao extends HibernateDaoSupport {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Product.class);
 		// 查询热门的商品,条件就是is_host = 1
 		criteria.add(Restrictions.eq("is_hot", 1));
+		//除开状态是 已售出的商品
+		criteria.add(Restrictions.not(Restrictions.eq("state",2)));
 		// 倒序排序输出:
 		criteria.addOrder(Order.desc("pdate"));
 		// 执行查询:
@@ -39,6 +41,8 @@ public class ProductDao extends HibernateDaoSupport {
 	public List<Product> findNew() {
 		// 使用离线条件查询:
 		DetachedCriteria criteria = DetachedCriteria.forClass(Product.class);
+		//除开状态是 已售出的商品
+		criteria.add(Restrictions.not(Restrictions.eq("state",2)));
 		// 按日期进行倒序排序:
 		criteria.addOrder(Order.desc("pdate"));
 		// 执行查询:
@@ -53,7 +57,7 @@ public class ProductDao extends HibernateDaoSupport {
 
 	// 根据分类id查询商品的个数
 	public int findCountCid(Integer cid) {
-		String hql = "select count(*) from Product p where p.categorySecond.category.cid = ?";
+		String hql = "select count(*) from Product p where p.categorySecond.category.cid = ? and p.state !=2";
 		List<Long> list = this.getHibernateTemplate().find(hql, cid);
 		if (list != null && list.size() > 0) {
 			return list.get(0).intValue();
@@ -67,7 +71,7 @@ public class ProductDao extends HibernateDaoSupport {
 		// cs.cid and cs.csid = p.csid and c.cid = 2
 		// select p from Category c,CategorySecond cs,Product p where c.cid =
 		// cs.category.cid and cs.csid = p.categorySecond.csid and c.cid = ?
-		String hql = "select p from Product p join p.categorySecond cs join cs.category c where c.cid = ?";
+		String hql = "select p from Product p join p.categorySecond cs join cs.category c where c.cid = ? and p.state !=2";
 		// 分页另一种写法:
 		List<Product> list = this.getHibernateTemplate()
 				.execute(new PageHibernateCallback<Product>(hql, new Object[] { cid }, begin, limit));
@@ -103,7 +107,7 @@ public class ProductDao extends HibernateDaoSupport {
 
 	// 根据二级分类查询商品个数
 	public int findCountCsid(Integer csid) {
-		String hql = "select count(*) from Product p where p.categorySecond.csid = ?";
+		String hql = "select count(*) from Product p where p.categorySecond.csid = ? and p.state!=2";
 		List<Long> list = this.getHibernateTemplate().find(hql, csid);
 		if (list != null && list.size() > 0) {
 			return list.get(0).intValue();
@@ -113,7 +117,7 @@ public class ProductDao extends HibernateDaoSupport {
 
 	// 根据二级分类查询商品信息
 	public List<Product> findByPageCsid(Integer csid, int begin, int limit) {
-		String hql = "select p from Product p join p.categorySecond cs where cs.csid = ?";
+		String hql = "select p from Product p join p.categorySecond cs where cs.csid = ? and p.state!=2";
 		List<Product> list = this.getHibernateTemplate()
 				.execute(new PageHibernateCallback<Product>(hql, new Object[] { csid }, begin, limit));
 		if (list != null && list.size() > 0) {
@@ -124,7 +128,7 @@ public class ProductDao extends HibernateDaoSupport {
 
 	// 后台统计商品个数的方法
 	public int findCount() {
-		String hql = "select count(*) from Product";
+		String hql = "select count(p) from Product p where p.state!=2";
 		List<Long> list = this.getHibernateTemplate().find(hql);
 		if (list != null && list.size() > 0) {
 			return list.get(0).intValue();
@@ -134,7 +138,7 @@ public class ProductDao extends HibernateDaoSupport {
 
 	// 后台查询所有商品的方法
 	public List<Product> findByPage(int begin, int limit) {
-		String hql = "from Product order by pdate desc";
+		String hql = "from Product p where p.state!=2 order by p.pdate desc";
 		List<Product> list = this.getHibernateTemplate()
 				.execute(new PageHibernateCallback<Product>(hql, null, begin, limit));
 		if (list != null && list.size() > 0) {

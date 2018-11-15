@@ -72,12 +72,12 @@
 							<del>￥<s:property value="model.market_price"/>元</del>
 					</dd>
 				</dl>
-					<dl>
-						<dt>促销:</dt>
-						<dd>
-								<a target="_blank" title="限时抢购 (2014-07-30 ~ 2015-01-01)">限时抢购</a>
-						</dd>
-					</dl>
+<!-- 					<dl> -->
+<!-- 						<dt>促销:</dt> -->
+<!-- 						<dd> -->
+<!-- 								<a target="_blank" title="限时抢购 (2014-07-30 ~ 2015-01-01)">限时抢购</a> -->
+<!-- 						</dd> -->
+<!-- 					</dl> -->
 					<dl>
 						<dt>    </dt>
 						<dd>
@@ -88,15 +88,15 @@
 			<form id="cartForm" action="${ pageContext.request.contextPath }/cart_addCart.action" method="post" >
 				<input type="hidden" name="pid" value="<s:property value="model.pid"/>"/>
 				<div class="action">
-						<dl class="quantity">
-							<dt>购买数量:</dt>
-							<dd>
-								<input id="count" name="count" value="1" maxlength="4" onpaste="return false;" type="text"/>
-							</dd>
-							<dd>
-								件
-							</dd>
-						</dl>
+<!-- 						<dl class="quantity"> -->
+<!-- 							<dt>购买数量:</dt> -->
+<!-- 							<dd> -->
+								<input id="count" name="count" value="1" maxlength="1" onpaste="return false;" type="hidden"/>
+<!-- 							</dd> -->
+<!-- 							<dd> -->
+<!-- 								件 -->
+<!-- 							</dd> -->
+<!-- 						</dl> -->
 						
 					<div class="buy">
 							<input id="addCart" class="addCart" value="加入购物车" type="button" onclick="saveCart()"/>

@@ -94,11 +94,12 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		// 从session中获得验证码的随机值:
 		String checkcode1 = (String) ServletActionContext.getRequest()
 				.getSession().getAttribute("checkcode");
+		System.out.println(checkcode1);
 		if(!checkcode.equalsIgnoreCase(checkcode1)){
 			this.addActionError("验证码输入错误!");
 			return "checkcodeFail";
 		}
-		
+		System.out.println("验证码判断完毕");
 		if(upload != null){
 			// 将商品图片上传到服务器上.
 			// 获得上传图片的服务器端路径.
@@ -111,7 +112,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	
 			user.setUserImg("usersImg/" + uploadFileName);
 		}
-		
+		System.out.println("图片保存完毕");
 		userService.save(user);
 		this.addActionMessage("注册成功!");
 		return "msg";

@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
     <constant name="struts.devMode" value="false" />
 
 	<package name="shop" extends="struts-default" namespace="/">
@@ -37,11 +37,10 @@
 			<result name="loginSuccess" type="redirectAction">index</result>
 			<result name="quit" type="redirectAction">index</result>
 			<result name="checkcodeFail">/WEB-INF/jsp/regist.jsp</result>
-			<interceptor-ref name="userLoginInterceptor">	
-				<param name="excludeMethods">login</param>
-				<param name="excludeMethods">quit</param>
-				<param name="excludeMethods">regist</param>
-			</interceptor-ref>
+<!-- 			<interceptor-ref name="userLoginInterceptor">	 -->
+<!-- 				<param name="includeMethods">findByName</param> -->
+<!-- 				<param name="includeMethods">active</param> -->
+<!-- 			</interceptor-ref> -->
 			<interceptor-ref name="defaultStack"/>
 		</action>
 		
@@ -76,6 +75,8 @@
 			<result name="findByUid">/WEB-INF/jsp/orderList.jsp</result>
 			<result name="findByOid">/WEB-INF/jsp/order.jsp</result>
 			<result name="updateStateSuccess" type="redirectAction">order_findByUid.action?page=1</result>
+			
+			<result name="showSellerMesPage">/WEB-INF/jsp/showSellerMes.jsp</result>
 			<interceptor-ref name="userLoginInterceptor"/>
 			<interceptor-ref name="defaultStack"/>
 		</action>
