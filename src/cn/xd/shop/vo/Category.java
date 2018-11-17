@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 一级分类的实体类对象
- * @author 传智.郭嘉
- *
- */
 public class Category implements Serializable{
 	private Integer cid;
 	private String cname;

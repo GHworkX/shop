@@ -1,10 +1,5 @@
 package cn.xd.shop.vo;
 
-/**
- * 购物项对象
- * @author 传智.郭嘉
- *
- */
 public class CartItem {
 	private Product product;	// 购物项中商品信息
 	private int count;			// 购买某种商品数量

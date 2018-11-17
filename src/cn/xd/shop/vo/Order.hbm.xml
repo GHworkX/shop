@@ -17,11 +17,12 @@
 		
 		<!-- 订单与用户关联配置 -->
 		<many-to-one name="user" lazy="false" class="cn.xd.shop.vo.User" column="uid"/>
-	
+		<!-- 订单与商品关联配置 -->
+		<many-to-one name="product" lazy="false" class="cn.xd.shop.vo.Product" column="pid"/>
 		<!-- 订单与订单项关联配置 -->
-		<set name="orderItems" lazy="false" cascade="save-update">
-			<key column="oid"/>
-			<one-to-many class="cn.xd.shop.vo.OrderItem"/>
-		</set>
+<!-- 		<set name="orderItems" lazy="false" cascade="save-update"> -->
+<!-- 			<key column="oid"/> -->
+<!-- 			<one-to-many class="cn.xd.shop.vo.OrderItem"/> -->
+<!-- 		</set> -->
 	</class>
 </hibernate-mapping>

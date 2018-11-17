@@ -1,10 +1,5 @@
 package cn.xd.shop.vo;
 
-/**
- * 订单项的实体
- * @author 传智.郭嘉
- *
- */
 public class OrderItem {
 	private Integer itemid;
 	private Integer count;

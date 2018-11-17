@@ -76,7 +76,7 @@
 						商品描述：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<textarea name="pdesc" rows="5" cols="30"></textarea>
+						<textarea name="pdesc" class="form-control" style="width:100%" rows="5" cols="50"></textarea>
 					</td>
 				</tr>
 				<tr>

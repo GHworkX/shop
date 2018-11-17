@@ -3,22 +3,6 @@ package cn.xd.shop.vo;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 用户名模块实体类:
- * @author 传智.郭嘉
- *CREATE TABLE `user` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `addr` varchar(255) DEFAULT NULL,
-  `state` int(11) DEFAULT NULL,
-  `code` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
- */
 public class User {
 	private Integer uid;
 	private String username;

@@ -12,12 +12,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 后台二级分类的管理的Action.
- * 
- * @author 传智.郭嘉
- * 
- */
 public class AdminCategorySecondAction extends ActionSupport implements
 		ModelDriven<CategorySecond> {
 

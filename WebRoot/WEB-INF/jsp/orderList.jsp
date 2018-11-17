@@ -29,23 +29,23 @@
 		window.location.href=url+oid;
 		return false;
 	}
+	function dropOrder(){
+		var url="${ pageContext.request.contextPath }/order_dropOrder.action?oid="+$('#dropOid').val();
+		window.location.href=url;
+	}
 </script>
 </head>
 <body>
 		<%@ include file="menu.jsp"%>
 
-	<div class="container cart">
-
+	<div class="container cart" style= 'padding-top: 80px;padding-bottom: 50px'>
+	
 		<div class="span24">
-
 			<div class="step step1">
-				<ul>
-					<li class="current"></li>
-					<li>我的订单</li>
+				<ul class="nav nav-tabs">
+				  <li role="presentation" class="active"><a href="#">我的订单</a></li>
 				</ul>
 			</div>
-
-
 			<table>
 				<tbody>
 					<s:iterator var="order" value="pageBean.list">
@@ -56,7 +56,8 @@
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">
 								<s:if test="#order.state == 1">
-									<a href="${ pageContext.request.contextPath }/order_findByOid.action?oid=<s:property value="#order.oid" />">付款</a>
+<%-- 									<a href="${ pageContext.request.contextPath }/order_findByOid.action?oid=<s:property value="#order.oid" />">付款</a> --%>
+										联系卖家哦亲~
 								</s:if>
 								<s:if test="#order.state == 2">
 									已付款
@@ -78,23 +79,22 @@
 							<th>小计</th>
 							<th>操作</th>
 						</tr>
-						<s:iterator var="orderItem" value="#order.orderItems">
 							<tr>
 								<td width="60"><img
-									src="${ pageContext.request.contextPath }/<s:property value="#orderItem.product.image"/>" />
+									src="${ pageContext.request.contextPath }/<s:property value="#order.product.image"/>" />
 								</td>
-								<td><s:property value="#orderItem.product.pname" /></td>
-								<td><s:property value="#orderItem.product.shop_price" /></td>
+								<td><s:property value="#order.product.pname" /></td>
+								<td><s:property value="#order.product.shop_price" /></td>
 								<td class="quantity" width="60"><s:property
-										value="#orderItem.count" /></td>
+										value="#order.total/#order.product.shop_price" /></td>
 								<td width="140"><span class="subtotal">￥<s:property
-											value="#orderItem.subtotal" />
+											value="#order.total" />
 								</span></td>
 								<td width="60">
-									<a href="#" onclick="checkOrderShop()">查看订单商品信息</a>
+									<a href="#" onclick="checkOrderShop()">查看</a><br>
+									<a href="#" onclick="javascript:$('#alertBox').modal('show');$('#dropOid').val('<s:property value='#order.oid'/>');">删除</a>
 								</td>
 							</tr>
-						</s:iterator>
 					</s:iterator>
 					<tr>
 						<th colspan="6">
@@ -130,34 +130,25 @@
 					</tr>
 				</tbody>
 			</table>
-
-
 		</div>
-
 	</div>
-<!-- 	<div class="container footer"> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<div class="footerAd"> -->
-<!-- 				<img src="image\r___________renleipic_01/footer.jpg" alt="我们的优势" -->
-<!-- 					title="我们的优势" height="52" width="950"> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<ul class="bottomNav"> -->
-<!-- 				<li><a href="#">关于我们</a> |</li> -->
-<!-- 				<li><a href="#">联系我们</a> |</li> -->
-<!-- 				<li><a href="#">诚聘英才</a> |</li> -->
-<!-- 				<li><a href="#">法律声明</a> |</li> -->
-<!-- 				<li><a>友情链接</a> |</li> -->
-<!-- 				<li><a target="_blank">支付方式</a> |</li> -->
-<!-- 				<li><a target="_blank">配送方式</a> |</li> -->
-<!-- 				<li><a>SHOP++官网</a> |</li> -->
-<!-- 				<li><a>SHOP++论坛</a></li> -->
-<!-- 			</ul> -->
-<!-- 		</div> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<div class="copyright">Copyright © 2005-2015 网上商城 版权所有</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<div id="alertBox" class="modal fade" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">确认信息</h4>
+		      </div>
+		      <div class="modal-body">
+		    	   亲，确认删除该订单？
+		    	   <input type="hidden" id="dropOid" name="dropOid" />
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" onclick="dropOrder()">没错</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">我点错了</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 </body>
 </html>

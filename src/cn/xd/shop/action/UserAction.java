@@ -10,16 +10,11 @@ import org.apache.struts2.ServletActionContext;
 
 import cn.xd.shop.service.UserService;
 import cn.xd.shop.vo.User;
+import cn.xd.utils.UUIDUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 用户模块Action的类
- * 
- * @author 传智.郭嘉
- * 
- */
 public class UserAction extends ActionSupport implements ModelDriven<User> {
 	// 模型驱动使用的对象
 	private User user = new User();
@@ -90,6 +85,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	 * @throws IOException 
 	 */
 	public String regist() throws IOException {
+		System.out.println("正在注册");
 		// 判断验证码程序:
 		// 从session中获得验证码的随机值:
 		String checkcode1 = (String) ServletActionContext.getRequest()
@@ -106,11 +102,12 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			String path = ServletActionContext.getServletContext().getRealPath(
 					"/usersImg");
 			// 创建文件类型对象:
-			File diskFile = new File(path + "//" + uploadFileName);
+			String uuid = UUIDUtils.getUUID();
+			File diskFile = new File(path + "//" +uuid+ uploadFileName);
 			// 文件上传:
 			FileUtils.copyFile(upload, diskFile);
 	
-			user.setUserImg("usersImg/" + uploadFileName);
+			user.setUserImg("usersImg/" +uuid+ uploadFileName);
 		}
 		System.out.println("图片保存完毕");
 		userService.save(user);

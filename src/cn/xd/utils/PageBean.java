@@ -2,11 +2,6 @@ package cn.xd.utils;
 
 import java.util.List;
 
-/**
- * 分页类的封装
- * @author 传智.郭嘉
- *
- */
 public class PageBean<T> {
 	private int page;	// 当前页数
 	private int totalCount; // 总记录数

@@ -7,11 +7,7 @@ import cn.xd.utils.PageBean;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-/**
- * 后台用户管理的Action类
- * @author 传智.郭嘉
- *
- */
+
 public class UserAdminAction extends ActionSupport implements ModelDriven<User>{
 	// 模型驱动使用的类
 	private User user = new User();

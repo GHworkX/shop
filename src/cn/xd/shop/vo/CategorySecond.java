@@ -3,11 +3,6 @@ package cn.xd.shop.vo;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 二级分类的实体
- * @author 传智.郭嘉
- *
- */
 public class CategorySecond {
 	private Integer csid;
 	private String csname;

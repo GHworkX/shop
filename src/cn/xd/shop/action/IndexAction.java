@@ -10,11 +10,6 @@ import cn.xd.shop.vo.Product;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-/**
- * 首页访问的Action
- * @author 传智.郭嘉
- *
- */
 public class IndexAction extends ActionSupport{
 	// 注入一级分类的Service:
 	private CategoryService categoryService;

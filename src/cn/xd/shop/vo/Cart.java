@@ -5,12 +5,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * 购物车对象
- * 
- * @author 传智.郭嘉
- * 
- */
 public class Cart implements Serializable{
 	// 购物车属性
 	// 购物项集合:Map的key就是商品pid,value:购物项

@@ -11,6 +11,7 @@
 <link href="${pageContext.request.contextPath}/css/slider.css" rel="stylesheet" type="text/css"/>
 <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="${pageContext.request.contextPath}/css/index.css" rel="stylesheet" type="text/css"/>
+<link href="${pageContext.request.contextPath}/css/product.css" rel="stylesheet" type="text/css" />
 		<script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"> </script>
 <!-- 引入bootstrap -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
@@ -18,60 +19,64 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" 
 		 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<link href="${pageContext.request.contextPath}/css/cart.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript">
-	function comfirmOrder(){
-		
-	}
-</script>
 </head>
 <body>
-
-<div class="container header">
-	<div class="span5">
-		<div class="logo">
-			<a href="./网上商城/index.htm">
-				<img src="${pageContext.request.contextPath}/image/r___________renleipic_01/logo.gif" alt="传智播客"/>
-			</a>
-		</div>
-	</div>
-	<div class="span9">
-<!-- <div class="headerAd"> -->
-<%-- 	<img src="${pageContext.request.contextPath}/image/header.jpg" width="320" height="50" alt="正品保障" title="正品保障"/> --%>
-<!-- </div>	 -->
-</div>
 	
 	<%@ include file="menu.jsp" %>
-	
-</div>	
 
-<div class="container cart">
+<div class="container cart" style="padding-top:80px;padding-buttom:50px">
 
 		<div class="span24">
-				<table>
+				<table class="table table-striped">
 					<tbody>
 					<tr>
 						<th colspan="7">商品列表:(请联系相应的卖家或到商城营业厅取货)&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					</tr>
-					</tbody>
-				</table>
-						<s:iterator var="sellerMesBean" value="sellersMes">
-						<div>
-						<ul>
-							<li>
-								<img border="2" src="${ pageContext.request.contextPath }/<s:property value="#sellerMesBean.product.image"/>"/>
-							</li>
-							<li>
-								商品名：<s:property value="#sellerMesBean.product.pname"/></br>
+					<tr>
+					<td>
+						<div  class="carousel slide" data-ride="carousel">
+							<!-- Indicators -->
+							<ol class="carousel-indicators">
+								<li data-target="#carousel-example-generic" data-slide-to="0"
+									class="active"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+							</ol>
+
+							<!-- Wrapper for slides -->
+							<div class="carousel-inner" role="listbox">
+								<div class="item active">
+									<s:iterator var="sellerMesBean" value="sellersMes">
+									<img src="${pageContext.request.contextPath }/<s:property value="#sellerMesBean.product.image"/>">
+									</s:iterator>
+								</div>
+							</div>
+
+							<!-- Controls -->
+							<a class="left carousel-control" href="#carousel-example-generic"
+								role="button" data-slide="prev"> <span
+								class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a> <a class="right carousel-control"
+								href="#carousel-example-generic" role="button" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right"
+								aria-hidden="true"></span> <span class="sr-only">Next</span>
+							</a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						商品名：<s:property value="#sellerMesBean.product.pname"/></br>
 								价格：<s:property value="#sellerMesBean.product.shop_price"/></br>
+								商品介绍：<s:property value="#sellerMesBean.product.pdesc"/></br>
 								卖家名称：<s:property value="#sellerMesBean.name"/></br>
 								卖家电话：<s:property value="#sellerMesBean.phone"/></br>
 								卖家地址：<s:property value="#sellerMesBean.addr"/></br>
-								<button onclick="window.location.href='${ pageContext.request.contextPath }/order_updateState?oid=#sellerMesBean.id'">完成订单</button>
-							</li>
-						</ul>
-						</div>
-						</s:iterator>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>

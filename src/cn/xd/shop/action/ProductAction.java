@@ -4,11 +4,13 @@ import cn.xd.shop.service.CategorySecondService;
 import cn.xd.shop.service.CategoryService;
 import cn.xd.shop.service.ProductService;
 import cn.xd.shop.vo.AdminUser;
+import cn.xd.shop.vo.Category;
 import cn.xd.shop.vo.CategorySecond;
 import cn.xd.shop.vo.Order;
 import cn.xd.shop.vo.Product;
 import cn.xd.shop.vo.User;
 import cn.xd.utils.PageBean;
+import cn.xd.utils.UUIDUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +26,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 商品的Action对象
- * 
- * @author 传智.郭嘉
- * 
- */
 public class ProductAction extends ActionSupport implements ModelDriven<Product> {
 	// 用于接收数据的模型驱动.
 	private Product product = new Product();
@@ -112,12 +108,19 @@ public class ProductAction extends ActionSupport implements ModelDriven<Product>
 		return "findByPid";
 	}
 
+	private CategoryService categoryService;
+	public void setCategoryService(CategoryService categoryService) {
+		this.categoryService = categoryService;
+	}
+	
 	// 根据分类的id查询商品:
 	public String findByCid() {
 		// List<Category> cList = categoryService.findAll();
 		PageBean<Product> pageBean = productService.findByPageCid(cid, page);// 根据一级分类查询商品,带分页查询
 		// 将PageBean存入到值栈中:
 		ActionContext.getContext().getValueStack().set("pageBean", pageBean);
+		ActionContext.getContext().getValueStack().set("cuttentCS",categoryService.findByCid(cid).getCategorySeconds());
+		ActionContext.getContext().getValueStack().set("isCategory",null);
 		return "findByCid";
 	}
 
@@ -127,6 +130,10 @@ public class ProductAction extends ActionSupport implements ModelDriven<Product>
 		PageBean<Product> pageBean = productService.findByPageCsid(csid, page);
 		// 将PageBean存入到值栈中:
 		ActionContext.getContext().getValueStack().set("pageBean", pageBean);
+		CategorySecond cs = categorySecondService.findByCsid(csid);
+		Category c = cs.getCategory();
+		ActionContext.getContext().getValueStack().set("cuttentCS",c.getCategorySeconds());
+		ActionContext.getContext().getValueStack().set("isCategory",cs.getCsname());
 		return "findByCsid";
 	}
 
@@ -157,13 +164,33 @@ public class ProductAction extends ActionSupport implements ModelDriven<Product>
 			// 获得上传图片的服务器端路径.
 			String path = ServletActionContext.getServletContext().getRealPath("/products");
 			// 创建文件类型对象:
-			File diskFile = new File(path + "//" + uploadFileName);
+			String uuid = UUIDUtils.getUUID();
+			File diskFile = new File(path + "//" +uuid+uploadFileName);
 			// 文件上传:
 			FileUtils.copyFile(upload, diskFile);
 
-			product.setImage("products/" + uploadFileName);
+			product.setImage("products/" +uuid+uploadFileName);
 		}
 		productService.save(product);
 		return "saveSuccess";
+	}
+	
+	public String dropProduct(){
+		int pid = Integer.parseInt(ServletActionContext.getRequest().getParameter("pid"));
+		// 获得用户的id.
+		User existUser = (User) ServletActionContext.getRequest().getSession()
+				.getAttribute("existUser");
+		Product product =productService.findByPid(pid);
+		if(product!=null && product.getSeller().getUid().equals(existUser.getUid())){
+			productService.delete(product);
+			// 根据用户的id查询订单:
+			PageBean<Product> pageBean = productService.findBySellerId(existUser.getUid(), 1);
+			// 将PageBean数据带到页面上.
+			ActionContext.getContext().getValueStack().set("pageBean", pageBean);
+			return "findByUid";
+		}else{
+			this.addActionMessage("亲!服务器繁忙，请刷新重试!");
+			return "msg";
+		}
 	}
 }

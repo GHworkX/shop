@@ -9,11 +9,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 后台一级分类管理Action
- * @author 传智.郭嘉
- *
- */
 public class AdminCategoryAction extends ActionSupport implements ModelDriven<Category>{
 	// 模型驱动使用的对象.
 	private Category category = new Category();

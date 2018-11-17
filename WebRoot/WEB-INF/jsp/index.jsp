@@ -29,13 +29,12 @@
 <%--     background-repeat: no-repeat;" --%>
     >
 	<%@ include file="menu.jsp" %>
-<!-- 	<div class="jumbotron"> -->
 
-<div class="container" style="padding-top:50px;padding-buttom:50px;">
+<div class="container" style="padding-top:80px;padding-buttom:50px;">
 	<ul class="nav nav-tabs">
 	  <li role="presentation" class="active"><a href="#">最新商品</a></li>
 	</ul>
-			<div class="row">
+			<div class="row" style="padding-top:20px">
 				<s:iterator var="p" value="hList">
 				  <div class="col-xs-6 col-md-3">
 				    <a href="${ pageContext.request.contextPath }/product_findByPid.action?pid=<s:property value="#p.pid"/>" class="thumbnail" target="_blank">
@@ -54,6 +53,5 @@
 			</div>
 </div>
 <div></div>
-<!--       </div> -->
 </body>
 </html>

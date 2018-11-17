@@ -1,9 +1,4 @@
 package cn.xd.shop.vo;
-/**
- * 后台用户登录实体
- * @author 传智.郭嘉
- *
- */
 public class AdminUser{
 	private Integer uid;
 	private String username;

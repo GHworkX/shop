@@ -1,76 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- saved from url=(0048)http://localhost:8080/mango/product/list/1.jhtml -->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri="/struts-tags"  prefix="s"%>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>传智网上商城</title>
+	<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>西电二手交易平台</title>
+<link href="${pageContext.request.contextPath}/css/slider.css" rel="stylesheet" type="text/css"/>
 <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" type="text/css"/>
-<link href="${pageContext.request.contextPath}/css/product.css" rel="stylesheet" type="text/css"/>
+<link href="${pageContext.request.contextPath}/css/index.css" rel="stylesheet" type="text/css"/>
+		<script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"> </script>
+<!-- 引入bootstrap -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+		 integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" 
+		 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<link href="${pageContext.request.contextPath}/css/product.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+
+	$(function(){
+		('#tree').treeview({data: '{text: "Node 1"}'});
+	})
+</script>
 </head>
 <body>
-<div class="container header">
-	<div class="span5">
-		<div class="logo">
-			<a href="http://localhost:8080/mango/">
-				<img src="${pageContext.request.contextPath}/image/r___________renleipic_01/logo.gif" alt="传智播客">
-			</a>
-		</div>
-	</div>
-	<div class="span9">
-<div class="headerAd">
-					<img src="${pageContext.request.contextPath}/image/header.jpg" width="320" height="50" alt="正品保障" title="正品保障">
-</div>	</div>
+	<%@ include file="menu.jsp" %>
+<div class="container" style="padding-top:80px;padding-buttom:50px;">
+	<ul class="nav nav-tabs">
+	 	 <li role="presentation"
+	 	 <s:if test="isCategory==null">
+	 	  	class='active'
+	 	  </s:if>
+	 	  >
+	  		<a href="#">ALL</a>
+		</li>
+	<s:iterator var="cs" value="cuttentCS">
+			<li role="presentation" <s:if test="#cs.csname==isCategory">
+			 	  	class='active'
+			 	  </s:if>>
+				<a href="${ pageContext.request.contextPath }/product_findByCsid.action?csid=<s:property value="#cs.csid"/>&page=1"><s:property value="#cs.csname"/></a>
+			</li>
+	</s:iterator>
+	</ul>
 	
-	<%@ include file="menuOld.jsp" %>
-	
-</div>	
-<div class="container productList">
-		<div class="span6">
-			<div class="hotProductCategory">
-				<s:iterator var="c" value="#session.cList">
-						<dl>
-							<dt>
-								<a href="${pageContext.request.contextPath}/product_findByCid.action?cid=<s:property value="#c.cid"/>&page=1"><s:property value="#c.cname"/></a>
-							</dt>
-								<s:iterator var="cs" value="#c.categorySeconds">
-									<dd>
-										<a href="${ pageContext.request.contextPath }/product_findByCsid.action?csid=<s:property value="#cs.csid"/>&page=1"><s:property value="#cs.csname"/></a>
-									</dd>
-								</s:iterator>	
-						</dl>
+			<div class="row" style="padding-top:20px">
+				<s:iterator var="p" value="pageBean.list">
+				  <div class="col-xs-6 col-md-3">
+				    <a href="${ pageContext.request.contextPath }/product_findByPid.action?pid=<s:property value="#p.pid"/>" class="thumbnail" target="_blank">
+				      <img src="${pageContext.request.contextPath}/<s:property value="#p.image"/>" alt="<s:property value="#p.pname"/>">
+				      <span style='color:green'><s:property value="#p.pname"/></span><br/>
+				      <span class="price">商城价： ￥<s:property value="#p.shop_price"/></span><br/>
+				      <span>上架时间:<s:date name="#p.pdate" format="yyyy-MM-dd hh:mm"/></span><br/>
+				      <s:if test="#p.pdesc.length()>10">
+				      	简介：<s:property value="#p.pdesc.substring(0, 10)"/>......
+				      </s:if>
+				      <s:elseif test="#p.pdesc.length()>0">
+				      	简介：<s:property value="#p.pdesc"/>......
+				      </s:elseif>
+				    </a>
+				  </div>
 				</s:iterator>		
 			</div>
-		</div>
-		<div class="span18 last">
-			
-			<form id="productForm" action="${pageContext.request.contextPath}/image/蔬菜 - Powered By Mango Team.htm" method="get">
-					
-				<div id="result" class="result table clearfix">
-						<ul>
-							<s:iterator var="p" value="pageBean.list">
-								<li>
-										<a href="${ pageContext.request.contextPath }/product_findByPid.action?pid=<s:property value="#p.pid"/>">
-											<img src="${pageContext.request.contextPath}/<s:property value="#p.image"/>" width="170" height="170"  style="display: inline-block;">
-											   
-											<span style='color:green'>
-											 <s:property value="#p.pname"/>
-											</span>
-											 
-											<span class="price">
-												商城价： ￥<s:property value="#p.shop_price"/>
-											</span>
-											 
-										</a>
-								</li>
-							</s:iterator>	
-								
-						</ul>
-				</div>
-	<div class="pagination">
+			<div class="pagination">
 			<span>第 <s:property value="pageBean.page"/>/<s:property value="pageBean.totalPage"/> 页</span>
 		<s:if test="cid != null">
 			<s:if test="pageBean.page != 1">
@@ -113,56 +107,6 @@
 			</s:if>
 		</s:if>	
 	</div>
-			</form>
-		</div>
-	</div>
-<div class="container footer">
-	<div class="span24">
-		<div class="footerAd">
-					<img src="${pageContext.request.contextPath}/image/footer.jpg" width="950" height="52" alt="我们的优势" title="我们的优势">
-</div>	</div>
-	<div class="span24">
-		<ul class="bottomNav">
-					<li>
-						<a >关于我们</a>
-						|
-					</li>
-					<li>
-						<a>联系我们</a>
-						|
-					</li>
-					<li>
-						<a >诚聘英才</a>
-						|
-					</li>
-					<li>
-						<a >法律声明</a>
-						|
-					</li>
-					<li>
-						<a>友情链接</a>
-						|
-					</li>
-					<li>
-						<a target="_blank">支付方式</a>
-						|
-					</li>
-					<li>
-						<a  target="_blank">配送方式</a>
-						|
-					</li>
-					<li>
-						<a >官网</a>
-						|
-					</li>
-					<li>
-						<a >论坛</a>
-						
-					</li>
-		</ul>
-	</div>
-	<div class="span24">
-		<div class="copyright">Copyright©2005-2015 网上商城 版权所有</div>
-	</div>
-</div>
-</body></html>
+</div>	
+</body>
+</html>

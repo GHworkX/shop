@@ -11,11 +11,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 后台订单管理的Action
- * @author 传智.郭嘉
- *
- */
 public class AdminOrderAction extends ActionSupport implements ModelDriven<Order>{
 	// 模型驱动使用的类
 	private Order order = new Order();

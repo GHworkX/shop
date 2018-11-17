@@ -21,12 +21,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-/**
- * 后台商品管理的Action
- * 
- * @author 传智.郭嘉
- * 
- */
 public class AdminProductAction extends ActionSupport implements
 		ModelDriven<Product> {
 	// 模型驱动使用的对象

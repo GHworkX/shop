@@ -20,30 +20,24 @@
 	rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/product.css"
 	rel="stylesheet" type="text/css" />
-
 <script type="text/javascript">
-			function addProduct(){
-				window.location.href = "${pageContext.request.contextPath}/product_addPage.action";
-			}
+	function dropProduct(){
+		var url="${ pageContext.request.contextPath }/product_dropProduct.action?pid="+$('#dropPid').val();
+		window.location.href=url;
+	}
 </script>
 </head>
 <body>
 
 		<%@ include file="menu.jsp"%>
 
-	<div class="container cart">
+	<div class="container cart" style= 'padding-top: 80px;padding-bottom: 50px'>
 
 		<div class="span24">
 
 			<div class="step step1">
-				<ul>
-
-					<li></li>
-					<li>我的订单</li>
-				</ul>
-				<ul sytle="float:right">
-					<li></li>
-					<li><button type="button" id="add" name="add" style="width:150px;height:20px;" onclick="addProduct()">上传我的商品</button></li>
+				<ul class="nav nav-tabs">
+				  <li role="presentation" class="active"><a href="#">我的商品</a></li>
 				</ul>
 			</div>
 
@@ -59,7 +53,7 @@
 								<s:if test="#product.state == 1">
 									未售出
 								</s:if>
-								<s:if test="#order.state == 2">
+								<s:if test="#product.state == 4">
 									已售出
 								</s:if>
 							</font>
@@ -78,7 +72,13 @@
 								<td><s:property value="#product.pname" /></td>
 								<td><s:property value="#product.shop_price" /></td>
 								<td width="140">
-										<a href="">删除</a>
+									<s:if test="#product.state != 4">
+									<form id="pForm" action="${ pageContext.request.contextPath }/order_showAllBuyerMesByPid.action" method="post">
+										<input type="hidden" name="pid" value="<s:property value='#product.pid'/>"/>
+									</form>
+									<a href="#" onclick="javascript:$('#pForm').submit();">查看有意者</a><br>
+									</s:if>
+									<a href="#" onclick="javascript:$('#alertBox').modal('show');$('#dropPid').val('<s:property value='#product.pid'/>');">删除</a>
 								</td>
 							</tr>
 					</s:iterator>
@@ -119,31 +119,24 @@
 
 
 		</div>
-
 	</div>
-<!-- 	<div class="container footer"> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<div class="footerAd"> -->
-<!-- 				<img src="image\r___________renleipic_01/footer.jpg" alt="我们的优势" -->
-<!-- 					title="我们的优势" height="52" width="950"> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<ul class="bottomNav"> -->
-<!-- 				<li><a href="#">关于我们</a> |</li> -->
-<!-- 				<li><a href="#">联系我们</a> |</li> -->
-<!-- 				<li><a href="#">诚聘英才</a> |</li> -->
-<!-- 				<li><a href="#">法律声明</a> |</li> -->
-<!-- 				<li><a>友情链接</a> |</li> -->
-<!-- 				<li><a target="_blank">支付方式</a> |</li> -->
-<!-- 				<li><a target="_blank">配送方式</a> |</li> -->
-<!-- 				<li><a>SHOP++官网</a> |</li> -->
-<!-- 				<li><a>SHOP++论坛</a></li> -->
-<!-- 			</ul> -->
-<!-- 		</div> -->
-<!-- 		<div class="span24"> -->
-<!-- 			<div class="copyright">Copyright © 2005-2015 网上商城 版权所有</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<div id="alertBox" class="modal fade" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">确认信息</h4>
+		      </div>
+		      <div class="modal-body">
+		    	   亲，确认删除商品？
+		    	   <input type="hidden" id="dropPid" name="dropPid" />
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" onclick="dropProduct()">没错</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">我点错了</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 </body>
 </html>

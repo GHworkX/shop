@@ -1,12 +1,9 @@
 package cn.xd.shop.vo;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * 商品的实体对象
- * @author 传智.郭嘉
- *
- */
 public class Product {
 	private Integer pid;
 	private String pname;
@@ -16,7 +13,8 @@ public class Product {
 	private String pdesc;
 	private Integer is_hot;
 	private Date pdate;
-	
+	// 配置订单集合
+	private Set<Order> orders = new HashSet<Order>();
 	private Integer state = 1;//0:可无限售出   1:没售出  2：已售出  
 	// 二级分类的外键:使用二级分类的对象.
 	private CategorySecond categorySecond;
@@ -94,6 +92,12 @@ public class Product {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+	public Set<Order> getOrders() {
+		return orders;
+	}
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
 	}
 	
 }

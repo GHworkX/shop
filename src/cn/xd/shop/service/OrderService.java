@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.xd.shop.dao.OrderDao;
 import cn.xd.shop.vo.Order;
 import cn.xd.shop.vo.OrderItem;
+import cn.xd.shop.vo.User;
 import cn.xd.utils.PageBean;
 
 @Transactional
@@ -23,6 +24,10 @@ public class OrderService {
 		orderDao.save(order);
 	}
 
+	public void delete(Order order){
+		orderDao.delete(order);
+	}
+	
 	// 业务层根据用户id查询订单,带分页查询.
 	public PageBean<Order> findByUid(Integer uid,Integer page) {
 		PageBean<Order> pageBean = new PageBean<Order>();
@@ -92,4 +97,11 @@ public class OrderService {
 		return orderDao.findOrderItem(oid);
 	}
 	
+	public List<Order> findByPid(Integer pid){
+		return orderDao.findByPid(pid);
+	}
+	
+	public void finishOrderByPid(Integer pid){
+		orderDao.finishOrderByPid(pid);
+	}
 }

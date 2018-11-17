@@ -10,11 +10,22 @@ import cn.xd.utils.PageHibernateCallback;
 
 public class OrderDao extends HibernateDaoSupport {
 
-	// Dao层的保存订单额操作
+	// Dao层的保存订单操作
 	public void save(Order order) {
 		this.getHibernateTemplate().save(order);
 	}
+	
+	// Dao层的删除订单操作
+	public void delete(Order order) {
+		this.getHibernateTemplate().delete(order);
+	}
 
+	// Dao层根据商品id完结所有订单
+	public void finishOrderByPid(Integer pid){
+		String sql = "update orders set state = 4 where pid = "+pid;
+		this.getSession().createSQLQuery(sql).executeUpdate();
+	}
+	
 	// Dao层查询我的订单分页查询:统计个数
 	public int findCountByUid(Integer uid) {
 		String hql = "select count(*) from Order o where o.user.uid = ?";
@@ -74,5 +85,14 @@ public class OrderDao extends HibernateDaoSupport {
 		}
 		return null;
 	}
-
+	
+	// DAO中根据产品id查询所有订单项
+	public List<Order> findByPid(Integer pid){
+		String hql = "from Order o where o.product.pid = ? order by o.ordertime desc";
+		List<Order> list = this.getHibernateTemplate().find(hql, pid);
+		if (list != null && list.size() > 0) {
+			return list;
+		}
+		return null;
+	}
 }

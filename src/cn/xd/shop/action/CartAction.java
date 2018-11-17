@@ -9,12 +9,6 @@ import cn.xd.shop.vo.Product;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-/**
- * 购物车Action
- * 
- * @author 传智.郭嘉
- * 
- */
 public class CartAction extends ActionSupport {
 	// 接收pid
 	private Integer pid;

@@ -20,7 +20,7 @@
 
 
 <script>
-	function checkForm() {
+	function checkFormIt() {
 		// 校验用户名:
 		// 获得用户名文本框的值:
 		var username = document.getElementById("username").value;
@@ -49,6 +49,7 @@
 			alert("学号错误!");
 			return false;
 		}
+		return true;
 	}
 
 	function checkUsername() {
@@ -90,7 +91,7 @@
 		return xmlHttp;
 	}
 
-	function change() {
+	function changeImg() {
 		var img1 = document.getElementById("checkImg");
 		img1.src = "${pageContext.request.contextPath}/checkImg.action?time"
 				+ new Date().getTime();
@@ -114,7 +115,7 @@
 					<form id="registerForm"
 						action="${ pageContext.request.contextPath }/user_regist.action"
 						method="post" enctype="multipart/form-data" novalidate="novalidate"
-						onsubmit="return checkForm();">
+						onsubmit="return checkFormIt();">
 						<table>
 							<tbody>
 								<tr>
@@ -175,7 +176,7 @@
 											maxlength="4" autocomplete="off"><img id="checkImg"
 												class="captchaImage"
 												src="${pageContext.request.contextPath}/checkImg.action"
-												onclick="change()" title="点击更换验证码"></span></td>
+												onclick="changeImg()" title="点击更换验证码"></span></td>
 								</tr>
 								<tr>
 									<th>&nbsp;</th>

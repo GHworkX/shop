@@ -13,11 +13,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- * 邮件发送工具类
- * @author 传智.郭嘉
- *
- */
 public class MailUitls {
 	/**
 	 * 发送邮件的方法

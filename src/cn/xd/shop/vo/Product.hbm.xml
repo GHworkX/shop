@@ -18,5 +18,9 @@
 		<property name="state"/>
 		<many-to-one name="categorySecond" lazy="false" class="cn.xd.shop.vo.CategorySecond" column="csid"/>
 		<many-to-one name="seller" lazy="false" class="cn.xd.shop.vo.User" column="sellerid"/>
+		<set name="orders" cascade="delete">
+			<key column="pid"/>
+			<one-to-many class="cn.xd.shop.vo.Order"/>
+		</set>
 	</class>
 </hibernate-mapping>
