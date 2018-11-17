@@ -91,7 +91,7 @@
 						商品名称：
 					</td>
 					<td class="ta_01" bgColor="#ffffff"  colspan="3">
-						<input type="text" name="pname" value="" id="userAction_save_do_logonName" class="form-control"/>
+						<input type="text" name="pname" value="" class="form-control"/>
 					</td>
 <!-- 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01"> -->
 <!-- 						是否热门： -->
@@ -129,13 +129,13 @@
 						市场价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="market_price" value="" id="userAction_save_do_logonName" class="form-control"/>
+						<input type="text" name="market_price" value="" class="form-control"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						您的定价：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="" id="userAction_save_do_logonName" class="form-control"/>
+						<input type="text" name="shop_price" value="" class="form-control"/>
 					</td>
 				</tr>
 				<tr>
