@@ -57,6 +57,11 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	public String registPage() {
 		return "registPage";
 	}
+	
+	//跳转到购物指南页面
+	public String shopGuidePage(){
+		return "shopGuide";
+	}
 
 	/**
 	 * AJAX进行异步校验用户名的执行方法

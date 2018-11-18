@@ -10,6 +10,7 @@ import cn.xd.shop.vo.Order;
 import cn.xd.shop.vo.Product;
 import cn.xd.shop.vo.User;
 import cn.xd.utils.PageBean;
+import cn.xd.utils.SaveFileUtils;
 import cn.xd.utils.UUIDUtils;
 
 import java.io.File;
@@ -84,6 +85,39 @@ public class ProductAction extends ActionSupport implements ModelDriven<Product>
 		this.uploadContentType = uploadContentType;
 	}
 
+	//额外的图片 上传属性
+		private File upload1;
+		private String upload1FileName;
+		private String upload1ContentType;
+
+		public void setUpload1(File upload1) {
+			this.upload1 = upload1;
+		}
+
+		public void setUpload1FileName(String upload1FileName) {
+			this.upload1FileName = upload1FileName;
+		}
+
+		public void setUpload1ContentType(String upload1ContentType) {
+			this.upload1ContentType = upload1ContentType;
+		}
+		private File upload2;
+		private String upload2FileName;
+		private String upload2ContentType;
+
+		public void setUpload2(File upload2) {
+			this.upload2 = upload2;
+		}
+
+		public void setUpload2FileName(String upload2FileName) {
+			this.upload2FileName = upload2FileName;
+		}
+
+		public void setUpload2ContentType(String upload2ContentType) {
+			this.upload2ContentType = upload2ContentType;
+		}	
+	
+	
 	// 注入CategorySecondService
 	private CategorySecondService categorySecondService;
 
@@ -153,27 +187,54 @@ public class ProductAction extends ActionSupport implements ModelDriven<Product>
 	// 保存商品的方法:
 	public String save() throws IOException, ParseException {
 		User existUser = (User) ServletActionContext.getRequest().getSession().getAttribute("existUser");
+		if(existUser==null){
+			this.addActionMessage("亲!您还没登陆~");
+			return "msg";
+		}
 		// 将提交的数据添加到数据库中.
 		Date date = new Date();
 		SimpleDateFormat temp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		product.setPdate(temp.parse(temp.format(date)));
-		// product.setImage(image);
 		product.setSeller(existUser);
-		if (upload != null) {
-			// 将商品图片上传到服务器上.
-			// 获得上传图片的服务器端路径.
-			String path = ServletActionContext.getServletContext().getRealPath("/products");
-			// 创建文件类型对象:
-			String uuid = UUIDUtils.getUUID();
-			File diskFile = new File(path + "//" +uuid+uploadFileName);
-			// 文件上传:
-			FileUtils.copyFile(upload, diskFile);
-
+		String path = ServletActionContext.getServletContext().getRealPath("/products");
+		String uuid = UUIDUtils.getUUID();
+		if(!SaveFileUtils.saveFile(upload, uuid+uploadFileName, path)){
+			this.addActionMessage("亲!图片上传失败，请稍后再试!");
+			return "msg";
+		}else{
 			product.setImage("products/" +uuid+uploadFileName);
 		}
+		//保存额外的图片
+		String exFilePaths = "";
+		if(upload1!=null){
+			uuid = UUIDUtils.getUUID();
+			if(!SaveFileUtils.saveFile(upload1, uuid+upload1FileName, path)){
+				this.addActionMessage("亲!额外图片上传失败，请稍后再试!");
+				return "msg";
+			}else{
+				exFilePaths = "products/" +uuid+upload1FileName;
+			}
+		}
+		if(upload2!=null){
+			uuid = UUIDUtils.getUUID();
+			if(!SaveFileUtils.saveFile(upload2, uuid+upload2FileName, path)){
+				this.addActionMessage("亲!额外图片上传失败，请稍后再试!");
+				return "msg";
+			}else{
+				if(exFilePaths!="")
+					exFilePaths = exFilePaths+","+"products/" +uuid+upload2FileName;
+				else
+					exFilePaths = "products/" +uuid+upload2FileName;
+			}
+		}
+		if(exFilePaths!="")
+			product.setExImage(exFilePaths);
 		productService.save(product);
 		return "saveSuccess";
 	}
+	
+	
+	
 	
 	public String dropProduct(){
 		int pid = Integer.parseInt(ServletActionContext.getRequest().getParameter("pid"));

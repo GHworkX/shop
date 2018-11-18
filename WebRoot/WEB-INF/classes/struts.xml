@@ -6,6 +6,7 @@
 <struts>
 	<constant name="struts.multipart.saveDir" value="/tmp"/>
     <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="20971520"/> 
     
 	<package name="json" extends="json-default" namespace="/">
 		<!-- 配置自定义拦截器 -->
@@ -44,6 +45,8 @@
 		
 		<!-- 配置用户模块的Action -->
 		<action name="user_*" class="userAction" method="{1}">
+			<result name="shopGuide">/WEB-INF/jsp/shopGuide.jsp</result>
+		
 			<result name="registPage">/WEB-INF/jsp/regist.jsp</result>
 			<result name="input">/WEB-INF/jsp/regist.jsp</result>
 			<result name="loginPage">/WEB-INF/jsp/login.jsp</result>

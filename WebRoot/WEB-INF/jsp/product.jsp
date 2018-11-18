@@ -59,8 +59,9 @@
 							<ol class="carousel-indicators">
 								<li data-target="#carousel-example-generic" data-slide-to="0"
 									class="active"></li>
-								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								<s:iterator var="exImage" value="model.exImage.split(',')" status="status">
+									<li data-target="#carousel-example-generic" data-slide-to="<s:property value='#status.count'/>"></li>
+								</s:iterator>
 							</ol>
 
 							<!-- Wrapper for slides -->
@@ -68,15 +69,15 @@
 								<div class="item active">
 									<img
 										src="${pageContext.request.contextPath }/<s:property value="model.image"/>">
-									<!-- 						      <div class="carousel-caption"> -->
-									<!-- 						      </div> -->
+<!-- 															      <div class="carousel-caption"> -->
+<!-- 															      图片描述 -->
+<!-- 															      </div> -->
 								</div>
-								<!-- 						    <div class="item"> -->
-								<!-- 						      <img src="..." alt="..."> -->
-								<!-- 						      <div class="carousel-caption"> -->
-								<!-- 						        ... -->
-								<!-- 						      </div> -->
-								<!-- 						    </div> -->
+								<s:iterator var="exImage" value="model.exImage.split(',')" status="status">
+									<div class="item">
+										<img src="<s:property value='exImage'/>"/>
+									</div>
+								</s:iterator>
 							</div>
 
 							<!-- Controls -->
@@ -108,11 +109,20 @@
 								</dd>
 							</dl>
 						</div>
-						<button type="button" id="introduct" class="btn btn-info"
-							data-toggle="popover" title="卖家评语" data-trigger="focus"
-							data-content='
-						<p class="wordC"><s:property value="model.pdesc"/></p>
-					'>商品介绍</button>
+						<s:if test="model.pdesc==''">
+								<button type="button" id="introduct" class="btn btn-info"
+									data-toggle="popover" title="卖家评语" data-trigger="focus"
+									data-content='(没留下信息，卖家好像有点懒。)'>商品介绍
+								</button>
+						</s:if>
+							<s:else>
+								<button type="button" id="introduct" class="btn btn-info"
+										data-toggle="popover" title="卖家评语" data-trigger="focus"
+										data-content='
+									<p class="wordC"><s:property value="model.pdesc"/></p>
+								'>商品介绍
+								</button>
+							</s:else>					
 					</td>
 				</tr>
 				<tr>

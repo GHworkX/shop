@@ -1,9 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags"  prefix="s"%>
+<style>
+	.extPic{
+		display:none;
+	}
+</style>
 <script>
+var Regexs = {  
+        email: (/^[0-9a-z][0-9a-z\-\_\.]+@([0-9a-z][0-9a-z\-]*\.)+[a-z]{2,}$/i),//邮箱  
+        phone: (/^0[0-9]{2,3}[2-9][0-9]{6,7}$/),//座机手机号码  
+        ydphone: (/^((13[4-9])|(15[012789])|147|182|187|188)[0-9]{8}$/),//移动手机号码  
+        allphone: (/^((13[0-9])|(15[0-9])|(18[0-9]))[0-9]{8}$/),//所有手机号码  
+        ltphone: (/^((13[0-2])|(15[56])|(186)|(145))[0-9]{8}$/),//联通手机号码  
+        dxphone: (/^((133)|(153)|(180)|(189))[0-9]{8}$/),//电信手机号码  
+        url: (/^http:\/\/([0-9a-z][0-9a-z\-]*\.)+[a-z]{2,}(:\d+)?\/[0-9a-z%\-_\/\.]+/i),//网址  
+        num: (/[^0-9]/),//数字  
+        cnum: (/[^0-9a-zA-Z_.-]/),  
+        photo: (/\.png$|\.jpg$|\.jpeg$|\.gif$/i),//图片格式  
+        row: (/\n/ig)  
+    }; 
 	function submitIt(){
-		$("#userAction_save_do").submit();
+		var maxSize = 20*1024*1024;
+		var sum =0;
+		var current = true;
+		$('.file').each(function (i){
+			var file = this.files[0];
+			if(file!=undefined){
+				sum +=file.size;
+				if(!Regexs['photo'].test(file.name)){
+					current = false;
+				}
+			}
+		});
+		if($("#upload")[0].files[0]==undefined){
+			current = false;
+		}
+		if($("#pname").val()==null || $("#pname").val()==""){
+			current = false;
+		}
+		if($("#smallC").val()==null || $("#smallC").val()==""){
+			current = false;
+		}
+		if($("#market_price").val()==null || $("#market_price").val()==""){
+			current = false;
+		}
+		if($("#shop_price").val()==null || $("#shop_price").val()==""){
+			current = false;
+		}
+		if(!current){
+			alert("商品名、图片、价格、分类不能为空或上传图片格式不正确");
+		}else if(sum>=20971520)
+			alert("总上传图片大小不能超过20M~");
+		else
+			$("#userAction_save_do").submit();
 	}
 	function addDetailCategorySecond(){
 		var cid = $('#bigC').val();
@@ -70,8 +120,7 @@
 			</s:else>
 			
 			<li><a>会员中心</a></li>
-			<li><a>购物指南</a></li>
-<%--             <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li> --%>
+			<li><a href="${ pageContext.request.contextPath }/user_shopGuidePage.action">购物指南</a></li>
           </ul>
         </div>
       </div>
@@ -91,7 +140,7 @@
 						商品名称：
 					</td>
 					<td class="ta_01" bgColor="#ffffff"  colspan="3">
-						<input type="text" name="pname" value="" class="form-control"/>
+						<input type="text" id="pname" name="pname" value="" class="form-control"/>
 					</td>
 <!-- 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01"> -->
 <!-- 						是否热门： -->
@@ -129,13 +178,13 @@
 						市场价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="market_price" value="" class="form-control"/>
+						<input type="text" id="market_price" name="market_price" value="" class="form-control"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						您的定价：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="" class="form-control"/>
+						<input type="text" id="shop_price" name="shop_price" value="" class="form-control"/>
 					</td>
 				</tr>
 				<tr>
@@ -143,9 +192,27 @@
 						商品图片：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<input class="file"  type="file" name="upload" />
+						<input class="file" id="upload"  type="file" name="upload"/>
 					</td>
+					<td id="addTdBox"><a href="#" onclick="javascript:$('.extPic').show();$('#addTdBox').hide()">添加更多？</a></td>
 				</tr>
+					<tr class="extPic">
+						<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+							附件1：
+						</td>
+						<td class="ta_01" bgColor="#ffffff" colspan="3">
+							<input class="file"  type="file" name="upload1"/>
+						</td>
+						<td><a href="#" onclick="javascript:$('#addTdBox').show();$('.extPic').hide()">我不想添加</a></td>
+					</tr>
+					<tr class="extPic">
+						<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+							附件2：
+						</td>
+						<td class="ta_01" bgColor="#ffffff" colspan="3">
+							<input class="file"  type="file" name="upload2"/>
+						</td>
+					</tr>
 				<tr>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						商品描述：

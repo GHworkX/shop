@@ -21,6 +21,9 @@ public class Product {
 	// 卖家的外键:使用用户的对象.
 	private User seller;
 	private boolean isMarket = false;
+	//更多的图片，用'，'分割
+	private String exImage;
+	
 	public Integer getPid() {
 		return pid;
 	}
@@ -98,6 +101,12 @@ public class Product {
 	}
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+	public String getExImage() {
+		return exImage;
+	}
+	public void setExImage(String exImage) {
+		this.exImage = exImage;
 	}
 	
 }

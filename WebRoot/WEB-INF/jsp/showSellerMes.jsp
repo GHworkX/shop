@@ -32,24 +32,30 @@
 					<tr>
 						<th colspan="7">商品列表:(请联系相应的卖家或到商城营业厅取货)&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					</tr>
+					<s:iterator var="sellerMesBean" value="sellersMes">
 					<tr>
 					<td>
-						<div  class="carousel slide" data-ride="carousel">
+						<div id="carousel-example-generic" class="carousel slide"
+							data-ride="carousel">
 							<!-- Indicators -->
 							<ol class="carousel-indicators">
 								<li data-target="#carousel-example-generic" data-slide-to="0"
 									class="active"></li>
-								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								<s:iterator var="exImage" value="#sellerMesBean.product.exImage.split(',')" status="status">
+									<li data-target="#carousel-example-generic" data-slide-to="<s:property value='#status.count'/>"></li>
+								</s:iterator>
 							</ol>
 
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner" role="listbox">
 								<div class="item active">
-									<s:iterator var="sellerMesBean" value="sellersMes">
 									<img src="${pageContext.request.contextPath }/<s:property value="#sellerMesBean.product.image"/>">
-									</s:iterator>
 								</div>
+								<s:iterator var="exImage" value="#sellerMesBean.product.exImage.split(',')" status="status">
+									<div class="item">
+										<img src="<s:property value='exImage'/>"/>
+									</div>
+								</s:iterator>
 							</div>
 
 							<!-- Controls -->
@@ -75,6 +81,7 @@
 								卖家地址：<s:property value="#sellerMesBean.addr"/></br>
 					</td>
 				</tr>
+				</s:iterator>
 				</tbody>
 			</table>
 		</div>

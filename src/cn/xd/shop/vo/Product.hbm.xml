@@ -16,6 +16,7 @@
 		<property name="pdate"/>
 		<property name="isMarket"/>
 		<property name="state"/>
+		<property name="exImage"/>
 		<many-to-one name="categorySecond" lazy="false" class="cn.xd.shop.vo.CategorySecond" column="csid"/>
 		<many-to-one name="seller" lazy="false" class="cn.xd.shop.vo.User" column="sellerid"/>
 		<set name="orders" cascade="delete">
